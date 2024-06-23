@@ -68,10 +68,11 @@ VALUES
 UPDATE transactions t
 JOIN (
 	SELECT 
-		transactions.customer_id AS customer_id,
+		transactions.transaction_id,
 		SUM(COALESCE(pizzas.price, 0)) AS total_price
 	FROM pizzas
-	LEFT JOIN transactions ON transactions.transaction_id = pizzas.transaction_id
+	LEFT JOIN transactions ON pizzas.transaction_id = transactions.transaction_id
 	GROUP BY transactions.transaction_id
-) AS subquery ON t.transaction_id = subquery.transactions_id
+) AS subquery ON t.transaction_id = subquery.transaction_id
 SET t.total_price = subquery.total_price;
+
