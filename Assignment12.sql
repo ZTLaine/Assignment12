@@ -1,4 +1,9 @@
+-- 6/24/24
+-- Zack Laine
+-- Assignment 12
+
 CREATE SCHEMA IF NOT EXISTS `pizza_restaurant`;
+USE `pizza_restaurant`;
 
 CREATE TABLE IF NOT EXISTS `pizza_restaurant`.`customers` (
 	`customer_id` INT NOT NULL AUTO_INCREMENT,
@@ -84,7 +89,15 @@ SET t.total_price = subquery.total_price;
 
 -- Individual's total money spent
 SELECT
-	transactions.customer_id,
-    SUM(COALESCE(transactions.total_price)) 
+	customer_id,
+    SUM(COALESCE(total_price)) 
 FROM transactions
-GROUP BY transactions.customer1_id;
+GROUP BY transactions.customer_id;
+
+-- Individual's total money spent by date
+SELECT
+	customer_id,
+    order_datetime,
+    SUM(COALESCE(total_price)) 
+FROM transactions
+GROUP BY order_datetime, customer_id;
