@@ -76,6 +76,7 @@ SELECT
 FROM pizzas
 GROUP BY pizzas.transaction_id;
     
+-- Get the total for each transaction
 UPDATE transactions t
 JOIN (
 	SELECT 
