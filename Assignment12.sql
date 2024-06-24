@@ -65,10 +65,16 @@ VALUES
     (4, 'Vegetarian', 9.99),
     (4, 'Hawaiian', 12.99);
     
+SELECT 
+    pizzas.transaction_id,
+    SUM(COALESCE(pizzas.price, 0)) AS total_price
+FROM pizzas
+GROUP BY pizzas.transaction_id;
+    
 UPDATE transactions t
 JOIN (
 	SELECT 
-		transactions.transaction_id,
+		pizzas.transaction_id,
 		SUM(COALESCE(pizzas.price, 0)) AS total_price
 	FROM pizzas
 	LEFT JOIN transactions ON pizzas.transaction_id = transactions.transaction_id
@@ -76,3 +82,9 @@ JOIN (
 ) AS subquery ON t.transaction_id = subquery.transaction_id
 SET t.total_price = subquery.total_price;
 
+-- Individual's total money spent
+SELECT
+	transactions.customer_id,
+    SUM(COALESCE(transactions.total_price)) 
+FROM transactions
+GROUP BY transactions.customer1_id;
