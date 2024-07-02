@@ -84,7 +84,7 @@ JOIN (
 		SUM(COALESCE(pizzas.price, 0)) AS total_price
 	FROM pizzas
 	LEFT JOIN transactions ON pizzas.transaction_id = transactions.transaction_id
-	GROUP BY transactions.transaction_id
+	GROUP BY pizzas.transaction_id
 ) AS subquery ON t.transaction_id = subquery.transaction_id
 SET t.total_price = subquery.total_price;
 
@@ -98,7 +98,7 @@ GROUP BY transactions.customer_id;
 -- Individual's total money spent by date
 SELECT
 	customer_id,
-    order_datetime,
+    DATE(order_datetime),
     SUM(COALESCE(total_price)) 
 FROM transactions
 GROUP BY order_datetime, customer_id;
